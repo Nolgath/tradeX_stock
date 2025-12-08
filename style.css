@@ -1,0 +1,99 @@
+* {
+    border: 1px solid red;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    align-items: center;
+    background-color: rgb(6, 0, 34);
+    width: 100%;
+    height: 50px;
+    color: white;
+}
+
+.header>p:nth-child(1) {
+    padding-left: 10px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* CONTAINER */
+.apply_flex {
+    display: flex;
+}
+
+/* SIDE MENU */
+
+.side_menu {
+    background-color: rgb(241, 241, 241);
+    border: 2px solid blue;
+    /* width: 200px; */
+    height: 100vh;
+    overflow: hidden;
+}
+
+.title {
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-bottom: 20px;
+}
+
+.side_menu_list ul {
+    list-style: none;
+}
+.side_menu_list>li {
+    width: 200px;
+    padding: 10px;
+    border-bottom: 1px solid rgb(189, 189, 189);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    list-style: none;
+}
+
+
+/* LIST OF CARS */
+.list_container {
+    margin-left: 10px;
+    padding-top: 50px;
+    width: 100%;
+    height: 750px;        /* set any height you want */
+    overflow-y: auto;     /* enables vertical scroll */
+    overflow-x: hidden;
+}
+
+.car{
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid rgb(228, 228, 228);
+    
+}
+
+.car>p {
+    padding: 10px;
+}
+
+.car>img {
+    border-right: 1px solid rgb(194, 194, 194);
+    width: 100px;
+    height: 100%;
+}
+
+.hidden{
+    display: none;
+}
