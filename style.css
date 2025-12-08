@@ -1,5 +1,5 @@
 * {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     padding: 0;
     margin: 0;
 }
@@ -40,7 +40,7 @@ button {
 
 .side_menu {
     background-color: rgb(241, 241, 241);
-    border: 2px solid blue;
+    /* border: 2px solid blue; */
     /* width: 200px; */
     height: 100vh;
     overflow: hidden;

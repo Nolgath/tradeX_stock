@@ -5,55 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js" defer></script>
     <script src="script.js" defer></script>
+
 </head>
 <body>
+
     <!-- Header -->
     <div class="header">
         <p>TRADEX Stock</p>
     </div>
 
-<div class="container apply_flex">  
-    <!-- Side Menu -->
-    <div class="container side_menu">
-        <h2 class="title">Cars</h2>
-        <ul class="side_menu_list">
-            <li>
-                <button href="#" id="sorting">Sorting </button>
-            </li>
-            <li class="test">
-                <ul>
-                    <li><a href="#" class="sorting_li sublist">Price Ascending</a></li>
-                    <li><a href="#" class="sorting_li sublist">Price Descending</a></li>
-                </ul>
-            </li>
-            <li>
-                <button href="#">VIN Search</button>
-            </li>
-            <li>
-                <button href="#">Brands</button>
-            </li>
-            <li>
-                <button href="#">Models</button>
-            </li>
-            <li>
-                <button href="#">Mileage</button>
-            </li>
-            <li>
-                <button href="#">Price</button>
-            </li>
-        </ul>
-    </div>
-
-    <!-- List of Cars -->
-    <div class="list_container">
-        <div class="car">
-            <input type="checkbox" class="checkbox">
-            <p>Nissan</p>
-            <p>X-TRAIL</p>
-            <p>N Connecta</p>
-            <p>28.390€</p>
+    <div class="container apply_flex">  
+        <!-- Side Menu -->
+        <div class="container side_menu">
+            <h2 class="title">Cars</h2>
+            <ul class="side_menu_list">
+                <li>
+                    <button href="#" id="sorting">Sorting </button>
+                </li>
+                <li class="test">
+                    <ul>
+                        <li><a href="#" class="sorting_li sublist">Price Ascending</a></li>
+                        <li><a href="#" class="sorting_li sublist">Price Descending</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <button href="#">VIN Search</button>
+                </li>
+                <li>
+                    <button href="#">Brands</button>
+                </li>
+                <li>
+                    <button href="#">Models</button>
+                </li>
+                <li>
+                    <button href="#">Mileage</button>
+                </li>
+                <li>
+                    <button href="#">Price</button>
+                </li>
+            </ul>
         </div>
+
+        <!-- List of Cars -->
+        <div class="list_container">
+            <div class="car">
+                <input type="checkbox" class="checkbox">
+                <p>Nissan</p>
+                <p>X-TRAIL</p>
+                <p>N Connecta</p>
+                <p>28.390€</p>
+            </div>
     </div> 
 
 </body>
