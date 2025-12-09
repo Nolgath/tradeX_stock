@@ -8,7 +8,6 @@
     display: none;
 }
 
-
 a {
     color: inherit;
     text-decoration: none;
@@ -18,7 +17,6 @@ button {
     all: unset;
     cursor: pointer;
 }
-
 /* ---------------------- HEADER ----------------------*/
 .header {
     display: flex;
@@ -34,8 +32,6 @@ button {
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
 }
-
-
 /* ---------------------- CONTAINER ----------------------*/
 .apply_flex {
     display: flex;
@@ -74,28 +70,42 @@ button {
     width: 100%;
 }
 
+#brands_available,#models_available{
+    height: 150px;
+    font-weight: normal;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* ---------------------- LIST OF CARS (TABLE) ----------------------  */
+table{
+    width: 100%;
+}
+
+#table_content,tr,td,th {
+    border: 1px solid rgba(0, 0, 0, 0.089);
+    border-collapse: collapse;
+    padding: 20px;
+    text-align: center;
+}
+
+th {
+    background-color: rgb(243, 255, 254);
+}
+
+tr:nth-child(odd) {
+    background-color: rgb(240, 240, 240);
+    }
+
+
 /* ---------------------- LIST OF CARS ----------------------  */
 .list_container {
-    margin-left: 10px;
-    padding-top: 50px;
+    margin-top: 10px;
+    margin-left: 20px;
     width: 100%;
     height: 750px;
     overflow-y: auto;
     overflow-x: hidden;
 }
-
-.car{
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    border: 1px solid rgb(228, 228, 228);
-    
-}
-
-.car>p {
-    padding: 10px;
-}
-
 
 

@@ -39,16 +39,14 @@
                 <li>
                     <button href="#">Brands</button>
                 </li>
-                <li>
-                    <p><input type="checkbox"> Audi</p>
-                    <p><input type="checkbox"> BMW</p>
-                    <p><input type="checkbox"> Jeep</p>
-                    <p><input type="checkbox"> Fiat</p>
-                    <p><input type="checkbox"> Nissan</p>
-                    <p><input type="checkbox"> Hyundai</p>
+                <li id="brands_available" class="hidden">
+
                 </li>
                 <li>
                     <button href="#">Models</button>
+                </li>
+                <li id="models_available" class="hidden">
+
                 </li>
                 <li>
                     <button href="#">Mileage</button>
@@ -64,6 +62,19 @@
 
         <!-- List of Cars -->
         <div class="list_container">
+            <table id="table_content">
+                <thead>
+                    <tr>
+                        <th>VIN</th>
+                        <th>Brand</th>
+                        <th>Modell</th>
+                        <th>Variant</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
     </div> 
 </body>
 </html>
