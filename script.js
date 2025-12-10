@@ -1,20 +1,33 @@
-document.addEventListener("DOMContentLoaded", () => {
-    let checkboxes = document.querySelectorAll("#brands_available input[type='checkbox']");
-
-    for(let checkbox of checkboxes){
-        checkbox.addEventListener('click', function () {
-            let selected_brands_arr = [...checkboxes].filter(checkbox => checkbox.checked == true).map(checkbox => checkbox.value.toLowerCase())
-            document.querySelector('#models_available').innerHTML = ""
-            displayModelsByBrand(selected_brands_arr)
-        })  
-    }
-});
-
-let btns = document.querySelectorAll("button")
-
 // ---------- RUN WHEN WEBSITE IS FULLY LOADED ----------
 let {the_cars} = JSON.parse(localStorage.getItem('car'))
 
+document.addEventListener("DOMContentLoaded", () => {
+    let tbody = document.querySelector('tbody')
+    let checkboxes_brand = document.querySelectorAll("#brands_available input[type='checkbox']");
+    let checkboxes_model = document.querySelectorAll("#models_available input[type='checkbox']");
+
+    // alert(checkboxes_brand.length)
+    // alert(checkboxes_model.length)
+
+    for(let checkbox of checkboxes_brand){
+        checkbox.addEventListener('click', function () {
+            let selected_brands_arr = [...checkboxes_brand].filter(checkbox => checkbox.checked == true).map(checkbox => checkbox.value.toLowerCase())
+            document.querySelector('#models_available').innerHTML = ""
+            displayModelsByBrand(selected_brands_arr)
+            
+            //Create the array of objects (all fields), only brands we selected
+            let selected_cars = the_cars.filter(car => selected_brands_arr.includes(car.Hersteller.toLowerCase())) 
+            if(selected_cars.length == 0){
+                selected_cars = the_cars
+            }
+            displayCarsTable(selected_cars)
+        })
+    }
+
+    
+});
+
+let btns = document.querySelectorAll("button")
 
 // ---------- GET UNIQUE BRANDS LOWERCASED FROM Hersteller.  ----------
 // --------BRANDS
@@ -41,10 +54,12 @@ function init(){
 init()
 
 // ---------- RETRIEVE LOCAL STORAGE DATA ----------
-//displayCarsTable(the_cars)
+displayCarsTable(the_cars)
 
 function displayCarsTable(array){
     let tbody = document.querySelector('tbody')
+    tbody.innerHTML = ""
+    
     array.forEach(({FIN, Hersteller, Modell, Ausstattungslinie, ['EK Netto'] : ek_netto}) => {
         tbody.innerHTML += `
             <tr>
@@ -82,14 +97,19 @@ function filter_by_vin(vin){
 }
 
 // ---------- COUNT PER BRAND ----------
+function countBrands(){
+    const count_brands = {}
+    the_cars.forEach(car => {
+        if(!Object.keys(count_brands).includes(car.Hersteller)){
+            count_brands[car.Hersteller]  = []
+        }
+        count_brands[car.Hersteller].push(car.Modell)
+    })
+    return count_brands
 
-const count_brands = {}
-the_cars.forEach(car => {
-    if(!Object.keys(count_brands).includes(car.Hersteller)){
-        count_brands[car.Hersteller]  = []
-    }
-    count_brands[car.Hersteller].push(car.Modell)
-})
+}
+
+let count_brands = countBrands()
 
 // ---------- ADD BRANDS TO BRANDS MENU ----------
 brandsAvailable()
@@ -112,22 +132,20 @@ function displayModelsByBrand(brands) {
         if(brands.includes(k.toLowerCase())){
             let models = [...new Set([...v])]
             models.forEach(model => {
-                models_available_li.innerHTML += `<p class='selection'><input type="checkbox" class='checkbox'> ${model} (${v.filter(m => m == model).length})</p>`
+                models_available_li.innerHTML += `<p class='selection'><input onclick='check_model()' type="checkbox" value='${model}' class='checkbox'> ${model} (${v.filter(m => m == model).length})</p>`
 
             })
         }
     }
-    
-    
-    
 }
 
+function check_model(){
+    let checkboxes_model = document.querySelectorAll("#models_available input[type='checkbox']");
+    let selected_brands_arr = [...checkboxes_model].filter(checkbox => checkbox.checked == true).map(checkbox => checkbox.value.toLowerCase())
+    console.log(selected_brands_arr);
+    
 
-
-
-
-
-
+}
 
 
 
@@ -142,3 +160,6 @@ function displayModelsByBrand(brands) {
 const distinct_brands = [ ...new Set([...all_brands]) ]
 
 */
+
+
+
