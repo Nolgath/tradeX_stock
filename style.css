@@ -116,3 +116,18 @@ tr:nth-child(odd) {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+.milage{
+    display: flex;
+    justify-content: space-evenly;
+}
+.milage input{
+    width: 40%;
+}
+.price{
+    display: flex;
+    justify-content: space-evenly;
+}
+.price input{
+    width: 40%;
+}
