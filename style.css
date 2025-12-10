@@ -2,6 +2,7 @@
     /* border: 1px solid red; */
     padding: 0;
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .hidden{
@@ -30,7 +31,6 @@ button {
 .header>p:nth-child(1) {
     padding-left: 10px;
     font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
 }
 /* ---------------------- CONTAINER ----------------------*/
 .apply_flex {
@@ -38,32 +38,34 @@ button {
 }
 
 /* ---------------------- SIDE MENU ----------------------*/
+.checkbox{
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.selection{
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
 .side_menu {
     background-color: rgb(241, 241, 241);
     min-width: 250px;
-    height: 100vh;
+    height: 90vh;
 }
 
 .title {
     padding: 10px;
-    font-family: Arial, Helvetica, sans-serif;
     padding-bottom: 20px;
 }
 
-.side_menu_list ul {
-    list-style: none;
-}
 .side_menu_list>li {
     padding: 10px;
     border-bottom: 1px solid rgb(189, 189, 189);
-    font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     list-style: none;
-}
-
-.sorting li {
-    margin: 5px;
-    padding: 5px;
 }
 
 .vin_search_bar>input {
@@ -78,12 +80,22 @@ button {
 }
 
 /* ---------------------- LIST OF CARS (TABLE) ----------------------  */
+#first_row{
+    position: sticky;
+    top: 0px;
+}
+
+button{
+    user-select: none;
+}
+
 table{
+    border: 1px solid rgb(215, 215, 215);
     width: 100%;
 }
 
 #table_content,tr,td,th {
-    border: 1px solid rgba(0, 0, 0, 0.089);
+    /* border: 1px solid rgba(0, 0, 0, 0.089); */
     border-collapse: collapse;
     padding: 20px;
     text-align: center;
@@ -97,13 +109,10 @@ tr:nth-child(odd) {
     background-color: rgb(240, 240, 240);
     }
 
-
-/* ---------------------- LIST OF CARS ----------------------  */
 .list_container {
-    margin-top: 10px;
-    margin-left: 20px;
+    margin: 50px 50px 0px 50px;
     width: 100%;
-    height: 750px;
+    height: 700px;
     overflow-y: auto;
     overflow-x: hidden;
 }

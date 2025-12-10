@@ -10,23 +10,47 @@ function toggleList(e){
 
 // ---------- RETRIEVE LOCAL STORAGE DATA ----------
 let {the_cars} = JSON.parse(localStorage.getItem('car'))
-displayCarsTable(the_cars)
+//displayCarsTable(the_cars)
 
 function displayCarsTable(array){
-    let list_container = document.querySelector('.list_container')
     let tbody = document.querySelector('tbody')
-    array.forEach(car => {
+    array.forEach(({FIN, Hersteller, Modell, Ausstattungslinie, ['EK Netto'] : ek_netto}) => {
         tbody.innerHTML += `
             <tr>
-            <td>${car.FIN}</td>
-            <td>${car.Hersteller}</td>
-            <td>${car.Modell}</td>
-            <td>${car.Ausstattungslinie}</td>
-            <td>${car['EK Netto']}</td>
+                <td>${FIN}</td>
+                <td>${Hersteller}</td>
+                <td>${Modell}</td>
+                <td>${Ausstattungslinie}</td>
+                <td>${ek_netto}</td>
             </tr>
         `
     });
 }
+
+/*
+// ---------- FILTER BY VIN  ----------
+let input_vin = document.querySelector('#vin_search_bar')
+
+input_vin.addEventListener('change', () => {
+    let vin = input_vin.value
+    let tbody = document.querySelector('tbody')
+
+    if(vin.length  == 0){
+        displayCarsTable(the_cars)
+        return
+    }
+
+    if(vin.length !== 17){
+        alert('Please input 17 characters')
+        return
+    }
+
+    tbody.innerHTML = ''
+    let filtered_cars = the_cars.filter(c => c.FIN == vin)
+    displayCarsTable(filtered_cars)
+})
+*/
+
 
 // ---------- GET UNIQUE BRANDS LOWERCASED FROM Hersteller.  ----------
 //Select a field from the array's objects. 
@@ -34,7 +58,6 @@ function displayCarsTable(array){
 const all_brands = the_cars.map(car => car.Hersteller.toLowerCase())
 // --------BRANDS
 const all_models = the_cars.map(car => String(car.Modell).toLowerCase())
-
 
 
 // ---------- COUNT PER BRAND ----------
@@ -63,7 +86,7 @@ function brandsAvailable() {
     let brands_available_li = document.querySelector('#brands_available')
 
     for (const [key,value] of Object.entries(count_brands)) {
-        brands_available_li.innerHTML += `<p><input type="checkbox"> ${key} (${value})</p>`
+        brands_available_li.innerHTML += `<p class='selection'><input type="checkbox" class='checkbox'> ${key} (${value})</p>`
     }
 }
 // ---------- ADD MODELS TO MODELS MENU ----------
@@ -72,7 +95,7 @@ function modelsAvailable() {
     let models_available_li = document.querySelector('#models_available')
 
     for (const [key,value] of Object.entries(count_models)) {
-        models_available_li.innerHTML += `<p><input type="checkbox"> ${key} (${value})</p>`
+        models_available_li.innerHTML += `<p class='selection'><input type="checkbox" class='checkbox'> ${key} (${value})</p>`
     }
 }
 
