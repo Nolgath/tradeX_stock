@@ -2,10 +2,10 @@
 let {the_cars} = JSON.parse(localStorage.getItem('car'))
 
 // ---------------- MILEAGE FILTER
-let min_km =    document.querySelector('.milage input:nth-child(1)');
-let max_km =    document.querySelector('.milage input:nth-child(2)');
+let min_km =    document.querySelector('.mileage input:nth-child(1)');
+let max_km =    document.querySelector('.mileage input:nth-child(2)');
 
-function change_milage() {
+function change_mileage() {
     let min = parseInt(min_km.value)
     let max = parseInt(max_km.value)
     if(!min && !max){
@@ -21,8 +21,8 @@ function change_milage() {
     displayCarsTable(filtered_mileage_cars)
 }
 
-min_km.addEventListener('change', change_milage)
-max_km.addEventListener('change', change_milage)
+min_km.addEventListener('change', change_mileage)
+max_km.addEventListener('change', change_mileage)
 
 // ---------------- PRICE FILTER
 let min_price =    document.querySelector('.price input:nth-child(1)');
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-let btns = document.querySelectorAll("button")
+
 
 // ---------- GET UNIQUE BRANDS LOWERCASED FROM Hersteller.  ----------
 // --------BRANDS
@@ -80,6 +80,7 @@ const all_brands = the_cars.map(car => car.Hersteller.toLowerCase())
 const all_models = the_cars.map(car => String(car.Modell).toLowerCase())
 
 // ---------- TOGGLE SUB MENU LISTS ----------
+let btns = document.querySelectorAll("button")
 
 function toggleBtns(){
     btns.forEach(btn =>{
@@ -96,7 +97,7 @@ function init(){
 init()
 
 // ---------- RETRIEVE LOCAL STORAGE DATA ----------
-displayCarsTable(the_cars)
+//displayCarsTable(the_cars)
 
 function displayCarsTable(array){
     let tbody = document.querySelector('tbody')
@@ -130,6 +131,7 @@ function filter_by_vin (){
     }
 
     if(vin.length !== 17){
+        displayCarsTable(the_cars)
         alert('Please input 17 characters')
         return
     }
@@ -186,10 +188,7 @@ function check_model(){
     let checkboxes_model = document.querySelectorAll("#models_available input[type='checkbox']");
     let selected_brands_arr = [...checkboxes_model].filter(checkbox => checkbox.checked == true).map(checkbox => checkbox.value.toLowerCase())
     console.log(selected_brands_arr);
-    
-
 }
-
 
 
 
