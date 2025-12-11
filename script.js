@@ -1,6 +1,8 @@
 // ---------- RUN WHEN WEBSITE IS FULLY LOADED ----------
 let {the_cars} = JSON.parse(localStorage.getItem('car'))
 
+let models = []
+
 // ---------------- SORTING FILTER
 let price_asc = document.querySelector('#price_asc')
 let price_dsc = document.querySelector('#price_dsc')
@@ -16,14 +18,12 @@ price_dsc.addEventListener('click', function() {
 })
 
 document.addEventListener("DOMContentLoaded", () => {
-    let tbody = document.querySelector('tbody')
     let checkboxes_brand = document.querySelectorAll("#brands_available input[type='checkbox']");
-    let checkboxes_model = document.querySelectorAll("#models_available input[type='checkbox']");
     
     for(let checkbox of checkboxes_brand){
         checkbox.addEventListener('click', function () {
             let selected_brands_arr = [...checkboxes_brand].filter(checkbox => checkbox.checked == true).map(checkbox => checkbox.value.toLowerCase())
-            document.querySelector('#models_available').innerHTML = ""
+            // document.querySelector('#models_available').innerHTML = ""
             displayModelsByBrand(selected_brands_arr)
             
             //Create the array of objects (all fields), only brands we selected
@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
-
 // ---------- RETRIEVE LOCAL STORAGE DATA ----------
 //displayCarsTable(the_cars)
 
@@ -130,7 +129,7 @@ function brandsAvailable() {
     for (const [key,value] of Object.entries(count_brands)) {
         brands_available_li.innerHTML += 
                                         `<p class='selection'>
-                                            <input type="checkbox" class='checkbox' value='${key}'> ${key} (${value.length})
+                                            <input type="checkbox" onclick='applyFilters()' class='checkbox' value='${key}'> ${key} (${value.length})
                                         </p>`
     }
 }
@@ -142,51 +141,86 @@ function displayModelsByBrand(brands) {
         if(brands.includes(k.toLowerCase())){
             let models = [...new Set([...v])]
             models.forEach(model => {
-                models_available_li.innerHTML += `<p class='selection'><input onclick='check_model()' type="checkbox" value='${model}' class='checkbox'> ${model} (${v.filter(m => m == model).length})</p>`
-
+                models_available_li.innerHTML += `<p class='selection'><input onclick='applyFilters()' type="checkbox" value='${model}' class='checkbox'> ${model} (${v.filter(m => m == model).length})</p>`
             })
         }
     }
 }
 
-function check_model(){
-    let checkboxes_model = document.querySelectorAll("#models_available input[type='checkbox']");
-    let selected_brands_arr = [...checkboxes_model].filter(checkbox => checkbox.checked == true).map(checkbox => checkbox.value.toLowerCase())
-    console.log(selected_brands_arr);
-}
-
+//-------------------------------------------------------------------------------------
 //Listening to inputs km and price
 document.querySelector('.mileage input:nth-child(1)').addEventListener('change', applyFilters);
 document.querySelector('.mileage input:nth-child(2)').addEventListener('change', applyFilters);
 document.querySelector('.price input:nth-child(1)').addEventListener('change', applyFilters);
 document.querySelector('.price input:nth-child(2)').addEventListener('change', applyFilters);
 
-
 function getFilters(){
+    // Mileage values
     let min_km =    parseInt(document.querySelector('.mileage input:nth-child(1)').value)   ||  0
-    let max_km =    parseInt(document.querySelector('.mileage input:nth-child(2)').value)   ||  9999999
+    let max_km =    parseInt(document.querySelector('.mileage input:nth-child(2)').value)   ||  99999999
+    // Price values
     let min_price =    parseInt(document.querySelector('.price input:nth-child(1)').value)  ||  0
-    let max_price =    parseInt(document.querySelector('.price input:nth-child(2)').value)  ||  9999999
+    let max_price =    parseInt(document.querySelector('.price input:nth-child(2)').value)  ||  99999999
 
-    return {min_km, max_km, min_price, max_price}
+    let selectedBrands = [...document.querySelectorAll("#brands_available input[type='checkbox']:checked")].map(checkbox => checkbox.value.toLowerCase()) 
+    let checkboxes_models = [...document.querySelectorAll("#models_available input[type='checkbox']:checked")].map(checkbox => String(checkbox.value).toLowerCase());
+
+    return {min_km, max_km, min_price, max_price, selectedBrands, checkboxes_models}
 }
+
+console.log("" == true);
 
 function applyFilters(){
+    let {min_km, max_km, min_price, max_price, selectedBrands, checkboxes_models} = getFilters()
 
-    let {min_km, max_km, min_price, max_price} = getFilters()
+    let filtered = the_cars.filter(car => car.km >= min_km && car.km <= max_km)
+    filtered = filtered.filter(car => car['EK Netto'] >= min_price && car['EK Netto'] <= max_price)
 
-    let filtered_km = the_cars.filter(car => car.km >= min_km && car.km <= max_km)
-    let filtered_km_and_price = filtered_km.filter(car => car['EK Netto'] >= min_price && car['EK Netto'] <= max_price)
-
-    let prices_and_km = filtered_km_and_price.map(car => {
+    if(selectedBrands.length > 0){
+        filtered = filtered.filter(car => selectedBrands.includes(car.Hersteller.toLowerCase()))
+    }
+    console.log(filtered.length);
+    
+    if(checkboxes_models.length > 0){
         
-        const obj = {}
-        obj['km'] = car.km
-        obj['price'] = car['EK Netto']
-        return obj
-    })
+        filtered = filtered.filter(car => checkboxes_models.includes(String(car.Modell).toLowerCase()))
+    }
+    console.log(filtered.length);
 
-    console.log(prices_and_km)
+    // console.log(checkboxes_models)
 
+    displayCarsTable(filtered);
+    
 }
 
+
+// decimals
+// checkbox size diff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // let prices_and_km = filtered_km_and_price.map(car => {
+    //     const obj = {}
+    //     obj['km'] = car.km
+    //     obj['price'] = car['EK Netto']
+    //     return obj
+    // })
+
+    // console.log(prices_and_km)
