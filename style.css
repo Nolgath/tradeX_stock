@@ -90,6 +90,8 @@ button {
 
 /* ---------------------- SIDE MENU ----------------------*/
 .side_menu {
+    resize: horizontal;
+    overflow: auto;
     background: linear-gradient(100deg, #ececec, #ffffff);
     width: 250px;
     height: 95vh;
@@ -166,7 +168,7 @@ button {
 
 /* ---------------------- LIST OF CARS (TABLE) ----------------------  */
 #first_row{
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 5px 5px rgba(26, 25, 25, 0.1);
     position: sticky;
     top: 0px;
 }
@@ -186,6 +188,8 @@ tr,td{
 }
 
 th {
+    resize: horizontal;
+    overflow: auto;
     font-weight: normal;
     padding: 5px;
     color: white;

@@ -1,52 +1,19 @@
 // ---------- RUN WHEN WEBSITE IS FULLY LOADED ----------
 let {the_cars} = JSON.parse(localStorage.getItem('car'))
 
-// ---------------- MILEAGE FILTER
-let min_km =    document.querySelector('.mileage input:nth-child(1)');
-let max_km =    document.querySelector('.mileage input:nth-child(2)');
+// ---------------- SORTING FILTER
+let price_asc = document.querySelector('#price_asc')
+let price_dsc = document.querySelector('#price_dsc')
 
-function change_mileage() {
-    let min = parseInt(min_km.value)
-    let max = parseInt(max_km.value)
-    if(!min && !max){
-        displayCarsTable(the_cars)
-        return
-    }
-    if( !min || !max || (min > max ) || (min < 0 || max < 0)){
-        return
-    }
-    console.log(`min ${min_km.value} and max ${max_km.value}`)
+price_asc.addEventListener('click', function() {
+    let sorted_asc_cars = the_cars.sort((a,b) => a['EK Netto'] - b['EK Netto']);
+    displayCarsTable(sorted_asc_cars)
+})
 
-    let filtered_mileage_cars = the_cars.filter(({km}) => km >= min && km <= max)
-    displayCarsTable(filtered_mileage_cars)
-}
-
-min_km.addEventListener('change', change_mileage)
-max_km.addEventListener('change', change_mileage)
-
-// ---------------- PRICE FILTER
-let min_price =    document.querySelector('.price input:nth-child(1)');
-let max_price =    document.querySelector('.price input:nth-child(2)');
-
-function change_price() {
-    let min = parseInt(min_price.value)
-    let max = parseInt(max_price.value)
-    if(!min && !max){
-        displayCarsTable(the_cars)
-        return
-    }
-    if( !min || !max || (min > max ) || (min < 0 || max < 0)){
-        return
-    }
-    // console.log(`min ${min_price.value} and max ${max_price.value}`)
-
-    let filtered_price_cars = the_cars.filter(({['EK Netto']: price}) => price >= min && price <= max )
-    displayCarsTable(filtered_price_cars)
-}
-
-min_price.addEventListener('change', change_price)
-max_price.addEventListener('change', change_price)
-
+price_dsc.addEventListener('click', function() {
+    let sorted_dsc_cars = the_cars.sort((a,b) => b['EK Netto'] - a['EK Netto']);
+    displayCarsTable(sorted_dsc_cars)
+})
 
 document.addEventListener("DOMContentLoaded", () => {
     let tbody = document.querySelector('tbody')
@@ -70,7 +37,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+// ---------- RETRIEVE LOCAL STORAGE DATA ----------
+//displayCarsTable(the_cars)
 
+function displayCarsTable(array){
+    let tbody = document.querySelector('tbody')
+    tbody.innerHTML = ""
+    
+    array.forEach(({FIN, Hersteller, Modell, Ausstattungslinie, ['EK Netto'] : ek_netto,km}) => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${FIN}</td>
+                <td>${Hersteller}</td>
+                <td>${Modell}</td>
+                <td>${Ausstattungslinie}</td>
+                <td>${km}</td>
+                <td>${ek_netto}</td>
+            </tr>
+        `
+    });
+}
 
 // ---------- GET UNIQUE BRANDS LOWERCASED FROM Hersteller.  ----------
 // --------BRANDS
@@ -96,26 +82,6 @@ function init(){
 
 init()
 
-// ---------- RETRIEVE LOCAL STORAGE DATA ----------
-//displayCarsTable(the_cars)
-
-function displayCarsTable(array){
-    let tbody = document.querySelector('tbody')
-    tbody.innerHTML = ""
-    
-    array.forEach(({FIN, Hersteller, Modell, Ausstattungslinie, ['EK Netto'] : ek_netto,km}) => {
-        tbody.innerHTML += `
-            <tr>
-                <td>${FIN}</td>
-                <td>${Hersteller}</td>
-                <td>${Modell}</td>
-                <td>${Ausstattungslinie}</td>
-                <td>${km}</td>
-                <td>${ek_netto}</td>
-            </tr>
-        `
-    });
-}
 // ---------- FILTERS BY VIN  ----------
 
 let input_vin = document.querySelector('#vin_search_bar')
@@ -169,7 +135,6 @@ function brandsAvailable() {
     }
 }
 // ---------- ADD MODELS TO MODELS MENU ----------
-// displayModels()
 function displayModelsByBrand(brands) {
     let models_available_li = document.querySelector('#models_available')
 
@@ -190,18 +155,38 @@ function check_model(){
     console.log(selected_brands_arr);
 }
 
+//Listening to inputs km and price
+document.querySelector('.mileage input:nth-child(1)').addEventListener('change', applyFilters);
+document.querySelector('.mileage input:nth-child(2)').addEventListener('change', applyFilters);
+document.querySelector('.price input:nth-child(1)').addEventListener('change', applyFilters);
+document.querySelector('.price input:nth-child(2)').addEventListener('change', applyFilters);
 
 
-//brands -> Array of brands we selected
-//console.log(count_models);
-//REVIEW Set()
+function getFilters(){
+    let min_km =    parseInt(document.querySelector('.mileage input:nth-child(1)').value)   ||  0
+    let max_km =    parseInt(document.querySelector('.mileage input:nth-child(2)').value)   ||  9999999
+    let min_price =    parseInt(document.querySelector('.price input:nth-child(1)').value)  ||  0
+    let max_price =    parseInt(document.querySelector('.price input:nth-child(2)').value)  ||  9999999
 
+    return {min_km, max_km, min_price, max_price}
+}
 
-/*
-// The three dots "..." are used to merge/join
-const distinct_brands = [ ...new Set([...all_brands]) ]
+function applyFilters(){
 
-*/
+    let {min_km, max_km, min_price, max_price} = getFilters()
 
+    let filtered_km = the_cars.filter(car => car.km >= min_km && car.km <= max_km)
+    let filtered_km_and_price = filtered_km.filter(car => car['EK Netto'] >= min_price && car['EK Netto'] <= max_price)
 
+    let prices_and_km = filtered_km_and_price.map(car => {
+        
+        const obj = {}
+        obj['km'] = car.km
+        obj['price'] = car['EK Netto']
+        return obj
+    })
+
+    console.log(prices_and_km)
+
+}
 
